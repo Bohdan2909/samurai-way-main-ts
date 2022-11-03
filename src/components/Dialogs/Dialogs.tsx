@@ -1,43 +1,34 @@
 import React from 'react';
 import s from './Dialogs.module.css'
-import {NavLink} from 'react-router-dom';
+import MessageItem from './MessageItem/MessageItem';
+import DialogsItem from './DialogsItem/DialogsITem';
+import {DialogsDataType, MessageDataType} from '../../redux/state';
 
-type DialogItemType = {
-    name: string
-    id: number
+
+type DialogsType = {
+    dialogs: Array<DialogsDataType>
+    messages: Array<MessageDataType>
 }
-const DialogItem = (props: DialogItemType) => {
-    let path = `/dialogs/${props.id}`
-    return (
-        <div className={s.dialogsItems}>
-            <div className={s.item}>
-                <NavLink to={path}>{props.name}</NavLink>
-            </div>
-
-        </div>
-    );
-};
 
 
-type MessageItem= {
-    message: string
-}
-const MessageItem = (props: MessageItem) => {
-    return (
-        <div className={s.messages}>
-            <div className={s.message}>{props.message}</div>
+const Dialogs = (props: DialogsType) => {
 
-        </div>
-    );
-};
-
-
-
-const Dialogs = () => {
+    let dialogsElement = props.dialogs.map(d => <DialogsItem key={d.id} name={d.name} id={d.id}/>)
+    let messagesElement = props.messages.map(m => <MessageItem key={m.id} message={m.message}/>)
+    let refTextarea = React.createRef<HTMLTextAreaElement>()
+    const addMessage = () => {
+        alert(refTextarea.current?.value)
+    }
     return (
         <div className={s.dialogs}>
-          <DialogItem name={'Andres'} id={1}/>
-            <MessageItem message={'What did you do?'}/>
+            <div className={s.dialogsItem}>
+                {dialogsElement}
+            </div>
+            <div className={s.messages}>
+                {messagesElement}
+            </div>
+            <textarea ref={refTextarea} name="messages" id="" cols={2} rows={4}></textarea>
+            <button onClick={addMessage}>Add</button>
         </div>
     );
 };
