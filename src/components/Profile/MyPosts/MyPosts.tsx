@@ -1,23 +1,23 @@
 import React, {ChangeEvent, ChangeEventHandler} from 'react';
 import s from './MyPosts.module.css'
 import Post from './Post/Post';
-import {ActionsTypes, addPostActionCreator, PostDataType, updateNewPostActionCreator} from '../../../redux/state';
+import {PostDataType} from '../../../redux/state';
+
 
 
 type MyPostsType = {
     posts: Array<PostDataType>
-    // addPost: (textMessage: string) => void
     newPost: string
-    // updateNewPostText: (newText: string) => void
-    dispatch:(action:ActionsTypes) => void
+    updateNewPostText: (text: string) => void
+    addPost: (newText: string) => void
 }
 const MyPosts = (props: MyPostsType) => {
     let refTextarea = React.createRef<HTMLTextAreaElement>()
-    const addPost = () => {
+    const onAddPost = () => {
 
-            // props.dispatch({type:'ADD-POST', textMessage: props.newPost})
-            props.dispatch(addPostActionCreator(props.newPost))
-
+        // props.dispatch({type:'ADD-POST', textMessage: props.newPost})
+        // props.dispatch(addPostActionCreator(props.newPost))
+        props.addPost(props.newPost)
 
 
     }
@@ -25,9 +25,9 @@ const MyPosts = (props: MyPostsType) => {
     const changeNewPostHandler = () => {
         if (refTextarea.current) {
             let text = refTextarea.current.value
-
-            // props.dispatch({type: 'UPDATE-NEW-POST', newText: text})
-            props.dispatch(updateNewPostActionCreator(text))
+            // // props.dispatch({type: 'UPDATE-NEW-POST', newText: text})
+            // props.dispatch(updateNewPostActionCreator(text))
+            props.updateNewPostText(text)
         }
     }
     return (
@@ -44,7 +44,7 @@ const MyPosts = (props: MyPostsType) => {
                           onChange={changeNewPostHandler}
                 >
                 </textarea>
-                <button onClick={addPost}
+                <button onClick={onAddPost}
                         className={s.button}>
                     Add post
                 </button>

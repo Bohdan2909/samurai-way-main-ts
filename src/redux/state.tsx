@@ -1,8 +1,7 @@
 // import {rerenderApp} from '../index';
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST'
-const SEND_NEW_MESSAGE = 'SEND-NEW-MESSAGE'
-const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE'
+import profileReducer, {addPostActionCreator, updateNewPostActionCreator} from './profileReducer';
+import dialogReducer, {sendMessageActionCreator, updateNewMessageActionCreator} from './dialogReducer';
+
 export type PostDataType = {
     id: number
     message: string
@@ -94,89 +93,54 @@ let store: StoreType = {
         return this.state
     },
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            let newPost: PostDataType = {
-                id: this.state.profilePage.postData.length + 1, message: action.textMessage, likesCount: 42
-            }
-            this.state.profilePage.postData.push(newPost)
-            this.state.profilePage.newPostText = ''
-            this.rerenderApp(this.state)
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this.updateNewPostText(action.newText)
-            this.rerenderApp(this.state)
-        } else if (action.type === UPDATE_NEW_MESSAGE) {
-            this.state.dialogsPage.newMessage = action.body
-            this.rerenderApp(this.state)
-        } else if (action.type === SEND_NEW_MESSAGE) {
-            let body = this.state.dialogsPage.newMessage
-            this.state.dialogsPage.messageData.push({id: 6, message: body})
-            this.state.dialogsPage.newMessage = ''
-            this.rerenderApp(this.state)
-
-        }
+        this.state.profilePage = profileReducer(this.state.profilePage, action)
+        this.state.dialogsPage = dialogReducer(this.state.dialogsPage, action)
+        this.rerenderApp(this.state)
+        // if (action.type === ADD_POST) {
+        //     let newPost: PostDataType = {
+        //         id: this.state.profilePage.postData.length + 1, message: action.textMessage, likesCount: 42
+        //     }
+        //     this.state.profilePage.postData.push(newPost)
+        //     this.state.profilePage.newPostText = ''
+        //     this.rerenderApp(this.state)
+        // } else if (action.type === UPDATE_NEW_POST_TEXT) {
+        //     this.state.profilePage.newPostText = action.newText
+        //     this.rerenderApp(this.state)
+        // } else if (action.type === UPDATE_NEW_MESSAGE) {
+        //     this.state.dialogsPage.newMessage = action.body
+        //     this.rerenderApp(this.state)
+        // } else if (action.type === SEND_NEW_MESSAGE) {
+        //     let body = this.state.dialogsPage.newMessage
+        //     this.state.dialogsPage.messageData.push({id: 6, message: body})
+        //     this.state.dialogsPage.newMessage = ''
+        //     this.rerenderApp(this.state)
+        //
+        // }
     }
 }
-export const addPostActionCreator = (post: string) => {
-    return {
-        type: ADD_POST,
-        textMessage: post
-    } as const
-}
-export const updateNewPostActionCreator = (text: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text
-    } as const
-}
-export const updateNewMessageActionCreator = (text: string) => {
-    return {
-        type: UPDATE_NEW_MESSAGE,
-        body: text
-    } as const
-}
-export const sendMessageActionCreator = () => {
-    return {
-        type: SEND_NEW_MESSAGE
+// export const addPostActionCreator = (post: string) => {
+//     return {
+//         type: ADD_POST,
+//         textMessage: post
+//     } as const
+// }
+// export const updateNewPostActionCreator = (text: string) => {
+//     return {
+//         type: UPDATE_NEW_POST_TEXT,
+//         newText: text
+//     } as const
+// }
+// export const updateNewMessageActionCreator = (text: string) => {
+//     return {
+//         type: UPDATE_NEW_MESSAGE,
+//         body: text
+//     } as const
+// }
+// export const sendMessageActionCreator = () => {
+//     return {
+//         type: SEND_NEW_MESSAGE
+//
+//     } as const
+// }
 
-    } as const
-}
-// let state: StateType = {
-//
-//     profilePage: {
-//         postData: [
-//             {id: 1, message: 'Hi how are you?', likesCount: 12},
-//             {id: 2, message: 'Hi how are you?', likesCount: 13},
-//             {id: 3, message: 'Hi how are you?', likesCount: 42},
-//             {id: 4, message: 'Hi how are you?', likesCount: 32},
-//         ],
-//         newPostText: 'it-kamasutra.com'
-//     },
-//     dialogsPage: {
-//         dialogsData: [
-//             {id: 1, name: 'Andres'},
-//             {id: 2, name: 'Bob'},
-//             {id: 3, name: 'Alex'}
-//         ],
-//         messageData: [
-//             {id: 1, message: 'What did you do?'},
-//             {id: 2, message: 'How are you do?'},
-//             {id: 3, message: 'What you do?'},
-//         ]
-//     }
-// }
-//
-// export const addPost = (textMessage:string) => {
-//     let newPost:PostDataType = {
-//         id: state.profilePage.postData.length + 1, message: state.profilePage.newPostText, likesCount: 42
-//     }
-//     state.profilePage.postData.push(newPost)
-//     state.profilePage.newPostText=''
-//     rerenderApp(state)
-// }
-// export const updateNewPostText = (newText:string) => {
-//     state.profilePage.newPostText = newText
-//     rerenderApp(state)
-// }
-// export const subscribe = (observer: (state:StateType) => void) =>
-//     rerenderApp = observer
 export default store;

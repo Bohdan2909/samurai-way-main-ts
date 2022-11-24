@@ -4,21 +4,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from 'react-router-dom';
+import {Provider, StoreContext} from './redux/store-context';
 
 
 export let rerenderApp = (state:StateType) =>{
     ReactDOM.render(
         <BrowserRouter>
-            <App store={store}
-                 // addPost={store.addPost}
-                 // updateNewPostText={store.updateNewPostText}
-            />
+           <Provider store={store}>
+               <App/>
+           </Provider>
         </BrowserRouter>,
         document.getElementById('root')
     );
 }
-let state = store.getState()
 
-rerenderApp(state)
 
-store.subscribe(rerenderApp)
+rerenderApp(store.getState())
+
+store.subscribe(()=>{
+     let state = store.getState()
+    rerenderApp(state)
+})
