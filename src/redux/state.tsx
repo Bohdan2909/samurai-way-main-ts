@@ -7,15 +7,15 @@ export type PostDataType = {
     message: string
     likesCount: number
 }
-export type MessageDataType = {
+ type MessageDataType = {
     id: number
     message: string
 }
-export type DialogsDataType = {
+type DialogsDataType = {
     id: number
     name: string
 }
-export type ProfilePageType = {
+ type ProfilePageType = {
     postData: Array<PostDataType>
     newPostText: string
 }

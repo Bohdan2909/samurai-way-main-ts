@@ -1,27 +1,41 @@
-import {ActionsTypes, PostDataType, ProfilePageType} from './state';
+import {ActionsTypes} from './state';
+import {sendMessageActionCreator, updateNewMessageActionCreator} from './dialogReducer';
+
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST'
-const initialState = {
+export type PostDataType = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type InitialStateType = {
+    postData: Array<PostDataType>
+    newPostText: string
+}
+const initialState: InitialStateType = {
     postData: [
         {id: 1, message: 'Hi how are you?', likesCount: 12},
         {id: 2, message: 'Hi how are you?', likesCount: 13},
         {id: 3, message: 'Hi how are you?', likesCount: 42},
         {id: 4, message: 'Hi how are you?', likesCount: 32},
     ],
-    newPostText: 'it-kamasutra.com'
+    newPostText: ''
 }
-const profileReducer = (state:ProfilePageType = initialState, action:ActionsTypes) => {
-    switch(action.type){
+// export type ActionsType = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateNewPostActionCreator>
+
+const profileReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
+    switch (action.type) {
+
         case ADD_POST:
-            let newPost: PostDataType = {
-                id: state.postData.length + 1, message: action.textMessage, likesCount: 42
-            }
-            state.postData.push(newPost)
-            state.newPostText = ''
-            return state
+            let newPost = {id: state.postData.length + 1, message: action.textMessage, likesCount: 42}
+
+            return {...state, postData: [newPost, ...state.postData], newPostText: ''}
+
         case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText
-            return state
+            // state.newPostText = action.newText
+            return {...state, newPostText: action.newText}
+
+
         default:
             return state
     }
