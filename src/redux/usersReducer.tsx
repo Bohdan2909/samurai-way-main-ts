@@ -5,8 +5,11 @@ export type LocationType = {
 export type UsersType = {
     id: number
     followed: boolean
-    fullName: string
+    name: string
     location: LocationType
+    photos: any
+    status: string
+    uniqueUrlName:string
 }
 export type ActionsType = FollowAC | UnFollowAC|SetUsersAC
 export type initialStateType = {
@@ -14,10 +17,10 @@ export type initialStateType = {
 }
 const initialState = {
     users: [
-        {id: 1, followed: true, fullName: 'Mykola', location: {city: 'London', country: 'England'}},
-        {id: 2, followed: false, fullName: 'Petro', location: {city: 'Paris', country: 'France'}},
-        {id: 3, followed: false, fullName: 'Ivan', location: {city: 'Rome', country: 'Italy'}},
-        {id: 4, followed: false, fullName: 'Bob', location: {city: 'Madrid', country: 'Spain'}}
+        // {id: 1, followed: true, fullName: 'Mykola', location: {city: 'London', country: 'England'}},
+        // {id: 2, followed: false, fullName: 'Petro', location: {city: 'Paris', country: 'France'}},
+        // {id: 3, followed: false, fullName: 'Ivan', location: {city: 'Rome', country: 'Italy'}},
+        // {id: 4, followed: false, fullName: 'Bob', location: {city: 'Madrid', country: 'Spain'}}
     ]
 }
 

@@ -9,8 +9,8 @@ type DialogItemType = {
 }
 const DialogsITem = (props: DialogItemType) => {
 
-    // let path = `/dialogs/${props.id}`
-    let path = '/users'
+    let path = `/dialogs/${props.id}`
+
     return (
         <div className={s.dialogsItems}>
             <div className={s.item}>
