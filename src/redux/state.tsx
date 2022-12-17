@@ -93,7 +93,7 @@ let store: StoreType = {
         return this.state
     },
     dispatch(action) {
-        this.state.profilePage = profileReducer(this.state.profilePage, action)
+        // this.state.profilePage = profileReducer(this.state.profilePage, action)
         this.state.dialogsPage = dialogReducer(this.state.dialogsPage, action)
         this.rerenderApp(this.state)
         // if (action.type === ADD_POST) {

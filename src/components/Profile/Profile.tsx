@@ -2,6 +2,7 @@ import React from 'react';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 // import { StoreType} from '../../redux/state';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
+import {ProfileType} from '../../redux/profileReducer';
 
 //
 // type ProfileType = {
@@ -11,11 +12,13 @@ import MyPostsContainer from './MyPosts/MyPostsContainer';
 //     // updateNewPostText: (newText: string) => void
 //     // dispatch:(action: ActionsTypes) => void
 // }
-
-const Profile = () => {
+type ProfileTypeProps = {
+    profile:ProfileType
+}
+const Profile = (props:ProfileTypeProps) => {
     return (
         <div>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
     );
