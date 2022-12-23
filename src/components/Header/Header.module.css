@@ -2,8 +2,21 @@
     grid-area: h;
     background-color: #656363;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .header img {
+    margin-left: 30px;
     width: 50px;
+}
+.loginBlock a{
+    margin-right: 30px;
+    color: white;
+    text-decoration: none;
+}
+.loginBlock{
+    margin-right: 30px;
 }
