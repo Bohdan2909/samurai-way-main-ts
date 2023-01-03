@@ -94,8 +94,8 @@ let store: StoreType = {
     },
     dispatch(action) {
         // this.state.profilePage = profileReducer(this.state.profilePage, action)
-        this.state.dialogsPage = dialogReducer(this.state.dialogsPage, action)
-        this.rerenderApp(this.state)
+        // this.state.dialogsPage = dialogReducer(this.state.dialogsPage, action)
+        // this.rerenderApp(this.state)
         // if (action.type === ADD_POST) {
         //     let newPost: PostDataType = {
         //         id: this.state.profilePage.postData.length + 1, message: action.textMessage, likesCount: 42

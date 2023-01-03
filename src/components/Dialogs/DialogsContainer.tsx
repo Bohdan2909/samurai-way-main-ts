@@ -9,14 +9,13 @@ import {
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import {Dispatch} from 'redux';
+import {compose, Dispatch} from 'redux';
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 
 
 // type DialogsType = {
 //     store: StoreType
 // }
-
-
 // const DialogsContainer = () => {
 //
 //     return (
@@ -49,20 +48,22 @@ type MapStatePropsType = {
     dialogs: DialogsDataType[]
     messages: MessageDataType[]
     newMessage: string
+    // isAuth: boolean
 }
 type MapDispatchPropsType = {
-    addMessage: ()=> void
-    changeMessageHandler:(text:string) => void
+    addMessage: () => void
+    changeMessageHandler: (text: string) => void
 }
 export type DialogsType = MapStatePropsType & MapDispatchPropsType
-const mapStateToProps = (state: AppStateType):MapStatePropsType => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         dialogs: state.dialogsPage.dialogsData,
         messages: state.dialogsPage.messageData,
-        newMessage: state.dialogsPage.newMessage
+        newMessage: state.dialogsPage.newMessage,
+        // isAuth: state.auth.isAuth
     }
 }
-const mapDispatchToProps = (dispatch:Dispatch):MapDispatchPropsType => {
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
     return {
         addMessage: () => {
             dispatch(sendMessageActionCreator())
@@ -72,7 +73,9 @@ const mapDispatchToProps = (dispatch:Dispatch):MapDispatchPropsType => {
         }
     }
 }
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
-
-export default DialogsContainer;
+export default compose<React.ComponentType>(connect<MapStatePropsType,MapDispatchPropsType,{},AppStateType>(mapStateToProps, mapDispatchToProps),withAuthRedirect)(Dialogs)
+// let AuthRedirectComponent = withAuthRedirect(Dialogs)
+// const DialogsContainer = connect<MapStatePropsType,MapDispatchPropsType,{},AppStateType>(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+//
+// export default DialogsContainer;
 

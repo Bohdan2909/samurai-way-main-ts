@@ -15,7 +15,6 @@ type UsersPropsType = {
     currentPage: number
     onPageChange: (p: number) => void
     isFetching: boolean
-    setToggleFollowing:(isFollow:boolean,userId:number)=>void
     followingProgress:number[]
 }
 
@@ -35,27 +34,9 @@ const Users = (props: UsersPropsType) => {
                                         className={props.currentPage === p ? style.selectedPageActive : style.selectedPage}>{p}</span>)}
             </div>
             {props.users.map(u => {
-                const unFollowHandler = () => {
-                    props.setToggleFollowing(true,u.id)
-                    API.unFollow(u.id)
-                        .then(res => {
-                            if (res.data.resultCode === 0) {
-                                props.unFollow(u.id)
-                            }
-                            props.setToggleFollowing(false,u.id)
+                const unFollowHandler = () => props.unFollow(u.id)
+                const followHandler = () => props.follow(u.id)
 
-                        })
-                }
-                const followHandler = () => {
-                    props.setToggleFollowing(true,u.id)
-                    API.follow(u.id)
-                        .then(res => {
-                            if (res.data.resultCode === 0) {
-                                props.follow(u.id)
-                            }
-                            props.setToggleFollowing(false,u.id)
-                        })
-                }
                 return (
                     <div className={style.wrapperUsers} key={u.id}>
                         <div className={style.wrapperAvatar}>

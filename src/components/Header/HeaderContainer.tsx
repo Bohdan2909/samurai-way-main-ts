@@ -1,26 +1,16 @@
 import React, {Component} from 'react';
 import Header from './Header';
-import axios from 'axios';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
 import {AppStateType} from '../../redux/redux-store';
-import {setUserDataAC} from '../../redux/authReducer';
-import {API} from '../../api/api';
+import {getUserDataTC} from '../../redux/authReducer';
 
 
 type PropsType = MapStatePropsType & MapDispatchToPropsType
 
 class HeaderContainer extends Component<PropsType> {
     componentDidMount() {
-        API.authMe()
-            .then(res => {
-                console.log(res)
-                if (res.data.resultCode === 0) {
-                    let {id, email, login} = res.data.data
-                    this.props.setUserData(id, email, login)
-                }
 
-            })
+        this.props.getUserDataTC()
     }
 
     render() {
@@ -33,8 +23,7 @@ class HeaderContainer extends Component<PropsType> {
 }
 
 type MapDispatchToPropsType = {
-    setUserData: (userId: number, email: string, login: string) => void
-
+    getUserDataTC: () => void
 }
 type MapStatePropsType = {
     isAuth: boolean
@@ -46,12 +35,12 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         login: state.auth.login
     }
 }
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
-    return {
-        setUserData: (userId: number, email: string, login: string) => {
-            dispatch(setUserDataAC(userId, email, login))
-        }
-    }
-}
+// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+//     return {
+//         setUserData: (userId: number, email: string, login: string) => {
+//             dispatch(setUserDataAC(userId, email, login))
+//         }
+//     }
+// }
 
-export default connect<MapStatePropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default connect<MapStatePropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {getUserDataTC})(HeaderContainer);

@@ -2,10 +2,10 @@ import React from 'react';
 import Profile from './Profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import {Dispatch} from 'redux';
-import axios from 'axios';
-import {ProfileType, setUserProfileAC} from '../../redux/profileReducer';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {ProfileType, setUserProfileAC, setUserProfileTC} from '../../redux/profileReducer';
+import {Redirect, RouteComponentProps, withRouter} from 'react-router-dom';
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
+import {compose} from 'redux';
 
 
 type ProfileContainerTypeProps = MapStatePropsType & MapDispatchToProps
@@ -19,13 +19,12 @@ class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userId = Number(this.props.match.params.userId)
         if (!userId) userId = 2
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then(response => {
-                this.props.setUserProfile(response.data)
-            })
+        this.props.setUserProfileTC(userId)
+
     }
 
     render() {
+        // if (!this.props.isAuth) return <Redirect to={'/login'}/>
         return (
             <Profile {...this.props} profile={this.props.profile}/>
         );
@@ -34,21 +33,26 @@ class ProfileContainer extends React.Component<PropsType> {
 
 type MapStatePropsType = {
     profile: ProfileType
+    // isAuth:boolean
 }
 type MapDispatchToProps = {
-    setUserProfile: (profile: ProfileType) => void
+
+    setUserProfileTC:(userId:number)=> void
 }
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        // isAuth:state.auth.isAuth
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
-    return {
-        setUserProfile: (profile: ProfileType) => {
-            dispatch(setUserProfileAC(profile))
-        }
-    }
-}
-let WithUrlProfileContainer = withRouter(ProfileContainer)
-export default connect<MapStatePropsType,MapDispatchToProps,{},AppStateType>(mapStateToProps, mapDispatchToProps)(WithUrlProfileContainer);
+// let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
+//     return {
+//         setUserProfile: (profile: ProfileType) => {
+//             dispatch(setUserProfileAC(profile))
+//         }
+//     }
+// }
+export default compose<React.ComponentType>(connect<MapStatePropsType,MapDispatchToProps,{},AppStateType>(mapStateToProps, {setUserProfileTC}),withRouter)(ProfileContainer)
+// let AuthRedirectComponent = withAuthRedirect(ProfileContainer)
+// let WithUrlProfileContainer = withRouter(AuthRedirectComponent)
+// export default connect<MapStatePropsType,MapDispatchToProps,{},AppStateType>(mapStateToProps, {setUserProfileTC})(WithUrlProfileContainer);
